@@ -1,6 +1,6 @@
 # Nanopore 18S rRNA Amplicon-Based Sequencing Workflow
 
-This repository contains a complete and modular bioinformatics pipeline for processing Oxford Nanopore amplicon sequencing data, particularly targeting the 18S rRNA gene of arthropod-transmitted hemoparasites. The pipeline includes scripts for quality filtering, adapter and primer removal, taxonomic classification, and validation of unclassified reads.
+This repository contains a complete and modular bioinformatics pipeline for processing Oxford Nanopore 18S rRNA amplicon sequencing data, particularly for detecting arthropod-transmitted hemoparasites. The pipeline includes scripts for quality filtering, adapter and primer removal, taxonomic classification, and validation of unclassified reads.
 
 ![Workflow overview](./Fig_1.png)  
 *Figure 1. Bioinformatics pipeline for nanopore amplicon-based sequencing analysis. The process begins with basecalling and demultiplexing. The green dashed box highlights the source file (.fast5), while green arrows represent input files, and blue arrows indicate output files. Orange boxes are output files from one step and input for subsequent steps. Green dashed lines denote the reuse of generated files as inputs in subsequent steps. Blue boxes enclose the final output files.*
