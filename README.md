@@ -219,7 +219,29 @@ bash 03-nanoplot_fastq_processor.sh -i <filtered_fastq_dir> -o <qc_output_dir>
 bash multiqc_report.sh -i <nanoplot_results_dir> -o <multiqc_output_dir>
 ```
 
+## 16. Quality Filtering with NanoFilt
 
+- **Script:** `nanofilt_fastq_filter.sh`  
+- **Tool:** NanoFilt v2.8.0  
+- **Description:** Filters `.fastq` files based on average read quality using NanoFilt. Only files with a user-defined minimum number of high-quality reads are retained. This step helps eliminate low-quality data before alignment and consensus generation.
+
+```bash
+bash nanofilt_fastq_filter.sh -i <input_fastq_dir> -o <filtered_output_dir> -n <min_reads> -q <quality_threshold>
+```
+
+## 17. Consensus Sequence Generation and Polishing
+
+- **Script:** `consensus_polishing.sh`  
+- **Tools:** Minimap2 v2.28, Samtools v1.21, Racon v1.5.0, Medaka v2.0.1  
+- **Description:** Performs iterative consensus sequence generation from filtered reads. Initial mapping and error correction are done with Racon over three iterations, followed by final polishing with Medaka using a neural network model for Nanopore data. Processed samples are named using the `barcodeXX` convention, and final consensus sequences are stored in a user-defined directory.
+
+```bash
+bash consensus_polishing.sh \
+  -i <filtered_fastq_dir> \
+  -o <intermediate_output_dir> \
+  -r <reference_fasta_dir> \
+  -c <final_consensus_output_dir>
+```
 
 ---
 
