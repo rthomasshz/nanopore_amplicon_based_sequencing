@@ -184,6 +184,9 @@ bash megablast.sh -i <fasta_unclassified> -o <blast_output>
 
 ## Consensus sequence generation and variant identification
 
+![Workflow overview](./Fig_2.png)  
+*Figure 2. Workflow for consensus sequence generation and genetic variant identification for Hepatozoon reads obtained through nanopore amplicon-based sequencing. The green arrows represent input files, while the blue line after each box indicates output files. Each box outlines the specific tools and input/output file formats used at each step, illustrating the logical and modular structure of the process.*
+
 ---
 
 ## 13. Extraction and Threshold Filtering of Taxon-Specific Reads
