@@ -4,16 +4,16 @@ This repository contains a complete and modular bioinformatics pipeline for proc
 
 ## Overview of the Workflow
 
-![Workflow overview](./Fig_1.png)
+![Workflow overview](./Fig_1.png)  
 *Figure 1. General bioinformatics workflow for processing nanopore amplicon reads.*
 
 ---
 
 ## 1. Basecalling and Demultiplexing
 
-* **Script:** `01_basecalling_and_demultiplexing.sh`
-* **Tools:** Guppy v4.2.2
-* **Description:** Performs basecalling using the Super Accuracy (SUP) model and demultiplexing via Guppy. Retains only reads with barcodes at both ends.
+- **Script:** `01_basecalling_and_demultiplexing.sh`  
+- **Tools:** Guppy v4.2.2  
+- **Description:** Performs basecalling using the Super Accuracy (SUP) model and demultiplexing via Guppy. Retains only reads with barcodes at both ends.
 
 ```bash
 bash 01_basecalling_and_demultiplexing.sh \
@@ -23,14 +23,13 @@ bash 01_basecalling_and_demultiplexing.sh \
   -b SQK-NBD114-96
 ```
 
-Expected structure:
-
+**Expected structure:**
 ```
 07-guppy_output/
 ├── basecalled/
 │   └── pass/*.fastq
 ├── demultiplexed/
-│   └── barcode01/*.fastq
+│   ├── barcode01/*.fastq
 │   └── barcode02/*.fastq
 ```
 
@@ -38,8 +37,8 @@ Expected structure:
 
 ## 2. Concatenation of FASTQ Files
 
-* **Script:** `02-concat_fastq.sh`
-* **Description:** Concatenates all `.fastq` files from each barcode directory into one `.fastq` file per barcode.
+- **Script:** `02-concat_fastq.sh`  
+- **Description:** Concatenates all `.fastq` files from each barcode directory into one `.fastq` file per barcode.
 
 ```bash
 bash 02-concat_fastq.sh -i /path/to/demultiplexing_fastq/ -o /path/to/output
@@ -49,9 +48,9 @@ bash 02-concat_fastq.sh -i /path/to/demultiplexing_fastq/ -o /path/to/output
 
 ## 3. First Quality Evaluation
 
-* **Tool**: NanoPlot v1.42.0
-* **Script**: `03-nanoplot_fastq_processor.sh`
-* **Description:** Generate an initial quality control report on the concatenated `.fastq` files using NanoPlot.
+- **Tool:** NanoPlot v1.42.0  
+- **Script:** `03-nanoplot_fastq_processor.sh`  
+- **Description:** Generate an initial quality control report on the concatenated `.fastq` files using NanoPlot.
 
 ```bash
 bash 03-nanoplot_fastq_processor.sh -i <concat_fastq> -o <qc_nanoplot1>
@@ -59,11 +58,24 @@ bash 03-nanoplot_fastq_processor.sh -i <concat_fastq> -o <qc_nanoplot1>
 
 ---
 
-## 4. Adapter and Chimera Removal
+## 4. First MultiQC Summary
 
-* **Tool**: Porechop v0.2.4
-* **Script**: `04-porechop_fastq_processor.sh`
-* **Description:** Trim adapter sequences and remove chimeric reads from the input `.fastq` files using Porechop.
+- **Tool:** MultiQC v1.24.1  
+- **Script:** `multiqc_report.sh`  
+- **Description:** Aggregate initial quality control reports (e.g., from NanoPlot) into a single interactive summary using MultiQC.  
+  *This step helps evaluate read quality prior to adapter and primer removal.*
+
+```bash
+bash multiqc_report.sh -i <qc_nanoplot1> -o <multiqc_output1>
+```
+
+---
+
+## 5. Adapter and Chimera Removal
+
+- **Tool:** Porechop v0.2.4  
+- **Script:** `04-porechop_fastq_processor.sh`  
+- **Description:** Trim adapter sequences and remove chimeric reads from the input `.fastq` files using Porechop.
 
 ```bash
 bash 04-porechop_fastq_processor.sh -i <qc_input> -o <porechop_output>
@@ -71,12 +83,13 @@ bash 04-porechop_fastq_processor.sh -i <qc_input> -o <porechop_output>
 
 ---
 
-## 5. Length Filtering
+## 6. Length Filtering
 
-* **Tool**: fastp v0.23.4
-* **Range**: 577–831 bp
-* **Script**: `05-fastp_fastq_processor.sh`
-* **Description:** Filter reads based on length using fastp, retaining only those within a specified range (e.g., between 577 and 831 base pairs). These thresholds can be adjusted as needed depending on the target amplicon size. Input files must correspond to the output of the previous step (Porechop, i.e., adapter-trimmed and chimera-free `.fastq` files).
+- **Tool:** fastp v0.23.4  
+- **Range:** 577–831 bp (adjustable)  
+- **Script:** `05-fastp_fastq_processor.sh`  
+- **Description:** Filter reads based on length using `fastp`, retaining only those within a specified range (e.g., between 577 and 831 base pairs). These thresholds can be adjusted depending on the target amplicon size.  
+  **Input files** must correspond to the output of the previous step (i.e., Porechop-trimmed and chimera-free `.fastq` files).
 
 ```bash
 bash 05-fastp_fastq_processor.sh -i <input> -o <output> -r 577 -l 831
@@ -84,12 +97,12 @@ bash 05-fastp_fastq_processor.sh -i <input> -o <output> -r 577 -l 831
 
 ---
 
-## 6. Primer Removal
+## 7. Primer Removal
 
-* **Tool**: Cutadapt v3.3
-* **Script**: `06_cutadapt_subdir_fastq_processor.sh`
-* **Options**: `--rc`, `--times 6`, `-e 0.25`
-* **Description:** Remove PCR primer sequences from both ends and within the reads using Cutadapt. The script allows up to 6 removal attempts per read (--times 6), supports reverse complements (--rc), and tolerates up to 25% sequence mismatch (-e 0.25).
+- **Tool:** Cutadapt v3.3  
+- **Script:** `06_cutadapt_subdir_fastq_processor.sh`  
+- **Options:** `--rc`, `--times 6`, `-e 0.25`  
+- **Description:** Remove **PCR primer sequences** from both ends and within the reads using Cutadapt. The script allows up to 6 removal attempts per read (`--times 6`), supports reverse complements (`--rc`), and tolerates up to 25% sequence mismatch (`-e 0.25`).
 
 ```bash
 bash 06_cutadapt_subdir_fastq_processor.sh -i <filtered_input> -o <trimmed_output>
@@ -97,10 +110,11 @@ bash 06_cutadapt_subdir_fastq_processor.sh -i <filtered_input> -o <trimmed_outpu
 
 ---
 
-## 7. Second Quality Evaluation
+## 8. Second Quality Evaluation
 
-* **Tool**: NanoPlot v1.42.0
-* **Script**: `07_nanoplot_fastq_processor_2.sh`
+- **Tool:** NanoPlot v1.42.0  
+- **Script:** `07_nanoplot_fastq_processor_2.sh`  
+- **Description:** Re-evaluate the quality of the reads after adapter trimming, length filtering, and primer removal with NanoPlot.
 
 ```bash
 bash 07_nanoplot_fastq_processor_2.sh -i <trimmed_fastq_dir> -o <qc_nanoplot2>
@@ -108,23 +122,25 @@ bash 07_nanoplot_fastq_processor_2.sh -i <trimmed_fastq_dir> -o <qc_nanoplot2>
 
 ---
 
-## 8. MultiQC Summary (Run Twice)
+## 9. Second MultiQC Summary
 
-* **Tool**: MultiQC v1.24.1
-* **Script**: `multiqc_report.sh`
+- **Tool:** MultiQC v1.24.1  
+- **Script:** `multiqc_report.sh`  
+- **Description:** Aggregate post-processing quality control reports into a single summary using MultiQC.  
+  *This step summarizes the quality of cleaned reads before classification.*
 
 ```bash
-bash multiqc_report.sh -i <nanoplot_dir> -o <multiqc_output>
+bash multiqc_report.sh -i <qc_nanoplot2> -o <multiqc_output2>
 ```
 
 ---
 
-## 9. Taxonomic Classification
+## 10. Taxonomic Classification
 
-* **Tool**: Kraken2 v2.0.9
-* **Database**: SILVA Ref NR 138.2
-* **Script**: `08-kraken2_fastq_classifier.sh`
-* **Options**: `--confidence 0.1`, `--minimum-hit-groups 4`
+- **Tool:** Kraken2 v2.0.9  
+- **Database:** SILVA Ref NR 138.2  
+- **Script:** `08-kraken2_fastq_classifier.sh`  
+- **Options:** `--confidence 0.1`, `--minimum-hit-groups 4`
 
 ```bash
 bash 08-kraken2_fastq_classifier.sh -i <trimmed_fastq> -o <kraken_output> -d <kraken_db>
@@ -132,12 +148,12 @@ bash 08-kraken2_fastq_classifier.sh -i <trimmed_fastq> -o <kraken_output> -d <kr
 
 ---
 
-## 10. Validation of Unclassified Reads
+## 11. Validation of Unclassified Reads
 
-* **Tool**: MEGABLAST (BLASTn)
-* **Script**: `megablast.sh`
-* **Database**: `core_nt.00`
-* **Thresholds**: ≥95% identity, ≥98% coverage, bitscore ≥50, E ≤0, Δbitscore ≥32
+- **Tool:** MEGABLAST (BLASTn)  
+- **Script:** `megablast.sh`  
+- **Database:** `core_nt.00`  
+- **Thresholds:** ≥95% identity, ≥98% coverage, bitscore ≥50, E ≤0, Δbitscore ≥32
 
 ```bash
 bash megablast.sh -i <fasta_unclassified> -o <blast_output>
@@ -147,7 +163,7 @@ bash megablast.sh -i <fasta_unclassified> -o <blast_output>
 
 ## Figures and Supplementary Information
 
-* `Fig_1.png`: General pipeline overview
-* `Fig_2.png`: Consensus sequence generation and variant analysis
+- `Fig_1.png`: General pipeline overview  
+- `Fig_2.png`: Consensus sequence generation and variant analysis  
 
 *Sections corresponding to 2.4.3 and 2.4.4 will be integrated in the next phase of documentation.*
