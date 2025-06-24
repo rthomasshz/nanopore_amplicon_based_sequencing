@@ -139,8 +139,10 @@ bash multiqc_report.sh -i <qc_nanoplot2> -o <multiqc_output2>
 
 - **Tool:** Kraken2 v2.0.9  
 - **Database:** SILVA Ref NR 138.2  
-- **Script:** `08-kraken2_fastq_classifier.sh`  
+- **Script:** `08-kraken2_fastq_classifier.sh`
+- **Description:** Classify reads taxonomically using Kraken2 against the SILVA database, with confidence and hit-group thresholds for accuracy.  
 - **Options:** `--confidence 0.1`, `--minimum-hit-groups 4`
+
 
 ```bash
 bash 08-kraken2_fastq_classifier.sh -i <trimmed_fastq> -o <kraken_output> -d <kraken_db>
@@ -148,10 +150,23 @@ bash 08-kraken2_fastq_classifier.sh -i <trimmed_fastq> -o <kraken_output> -d <kr
 
 ---
 
-## 11. Validation of Unclassified Reads
+## 11. Conversion of Unclassified FASTQ to FASTA
+
+- **Script:** `fastq_to_fasta.sh`  
+- **Tool:** seqkit (required)  
+- **Description:** Convert FASTQ files containing unclassified reads (from Kraken2) to FASTA format prior to MEGABLAST validation. Only valid, non-empty files are processed, and read headers are simplified (e.g., extracting only `read=XXXX`). A log of skipped files is also generated.
+
+```bash
+bash fastq_to_fasta.sh -i <unclassified_fastq_dir> -o <fasta_output_dir>
+```
+
+---
+
+## 12. Validation of Unclassified Reads
 
 - **Tool:** MEGABLAST (BLASTn)  
-- **Script:** `megablast.sh`  
+- **Script:** `megablast.sh`
+- **Description:** Validate Kraken2-unclassified reads using a high-stringency BLAST (MEGABLAST) search against a curated nucleotide database to identify potential taxonomic matches that were missed during the initial classification.  
 - **Database:** `core_nt.00`  
 - **Thresholds:** ≥95% identity, ≥98% coverage, bitscore ≥50, E ≤0, Δbitscore ≥32
 
