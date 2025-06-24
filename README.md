@@ -11,9 +11,9 @@ This repository contains a complete and modular bioinformatics pipeline for proc
 
 ## 1. Basecalling and Demultiplexing
 
-**Script:** `01_basecalling_and_demultiplexing.sh`
-**Tools:** Guppy v4.2.2
-**Description:** Performs basecalling using the Super Accuracy (SUP) model and demultiplexing via Guppy. Retains only reads with barcodes at both ends.
+* **Script:** `01_basecalling_and_demultiplexing.sh`
+* **Tools:** Guppy v4.2.2
+* **Description:** Performs basecalling using the Super Accuracy (SUP) model and demultiplexing via Guppy. Retains only reads with barcodes at both ends.
 
 ```bash
 bash 01_basecalling_and_demultiplexing.sh \
@@ -38,8 +38,8 @@ Expected structure:
 
 ## 2. Concatenation of FASTQ Files
 
-**Script:** `02-concat_fastq.sh`
-**Description:** Concatenates all `.fastq` files from each barcode directory into one `.fastq` file per barcode.
+* **Script:** `02-concat_fastq.sh`
+* **Description:** Concatenates all `.fastq` files from each barcode directory into one `.fastq` file per barcode.
 
 ```bash
 bash 02-concat_fastq.sh -i /path/to/demultiplexing_fastq/ -o /path/to/output
