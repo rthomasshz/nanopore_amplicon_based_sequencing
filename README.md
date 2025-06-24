@@ -2,7 +2,7 @@
 
 This repository contains a complete and modular bioinformatics pipeline for processing Oxford Nanopore amplicon sequencing data, particularly targeting the 18S rRNA gene of arthropod-transmitted hemoparasites. The pipeline includes scripts for quality filtering, adapter and primer removal, taxonomic classification, and validation of unclassified reads.
 
-## Overview of the Workflow
+## Data processing and quality filtering
 
 ![Workflow overview](./Fig_1.png)  
 *Figure 1. General bioinformatics workflow for processing nanopore amplicon reads.*
@@ -132,6 +132,8 @@ bash 07_nanoplot_fastq_processor_2.sh -i <trimmed_fastq_dir> -o <qc_nanoplot2>
 ```bash
 bash multiqc_report.sh -i <qc_nanoplot2> -o <multiqc_output2>
 ```
+
+## Taxonomic analysis and genetic characterization
 
 ---
 
