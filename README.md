@@ -63,6 +63,7 @@ bash 03-nanoplot_fastq_processor.sh -i <concat_fastq> -o <qc_nanoplot1>
 
 * **Tool**: Porechop v0.2.4
 * **Script**: `04-porechop_fastq_processor.sh`
+* **Description:** Trim adapter sequences and remove chimeric reads from the input `.fastq` files using Porechop.
 
 ```bash
 bash 04-porechop_fastq_processor.sh -i <qc_input> -o <porechop_output>
@@ -75,6 +76,7 @@ bash 04-porechop_fastq_processor.sh -i <qc_input> -o <porechop_output>
 * **Tool**: fastp v0.23.4
 * **Range**: 577–831 bp
 * **Script**: `05-fastp_fastq_processor.sh`
+* **Description:** Filter reads based on length using fastp, retaining only those within a specified range (e.g., between 577 and 831 base pairs). These thresholds can be adjusted as needed depending on the target amplicon size.
 
 ```bash
 bash 05-fastp_fastq_processor.sh -i <input> -o <output> -r 577 -l 831
@@ -87,6 +89,7 @@ bash 05-fastp_fastq_processor.sh -i <input> -o <output> -r 577 -l 831
 * **Tool**: Cutadapt v3.3
 * **Script**: `06_cutadapt_subdir_fastq_processor.sh`
 * **Options**: `--rc`, `--times 6`, `-e 0.25`
+* **Description:** Remove PCR primer sequences from both ends and within the reads using Cutadapt. The script allows up to 6 removal attempts per read (--times 6), supports reverse complements (--rc), and tolerates up to 25% sequence mismatch (-e 0.25).
 
 ```bash
 bash 06_cutadapt_subdir_fastq_processor.sh -i <filtered_input> -o <trimmed_output>
