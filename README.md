@@ -135,6 +135,8 @@ bash 07_nanoplot_fastq_processor_2.sh -i <trimmed_fastq_dir> -o <qc_nanoplot2>
 bash multiqc_report.sh -i <qc_nanoplot2> -o <multiqc_output2>
 ```
 
+---
+
 ## Taxonomic analysis and genetic characterization
 
 ---
