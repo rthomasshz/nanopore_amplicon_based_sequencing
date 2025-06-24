@@ -76,7 +76,7 @@ bash 04-porechop_fastq_processor.sh -i <qc_input> -o <porechop_output>
 * **Tool**: fastp v0.23.4
 * **Range**: 577–831 bp
 * **Script**: `05-fastp_fastq_processor.sh`
-* **Description:** Filter reads based on length using fastp, retaining only those within a specified range (e.g., between 577 and 831 base pairs). These thresholds can be adjusted as needed depending on the target amplicon size.
+* **Description:** Filter reads based on length using fastp, retaining only those within a specified range (e.g., between 577 and 831 base pairs). These thresholds can be adjusted as needed depending on the target amplicon size. Input files must correspond to the output of the previous step (Porechop, i.e., adapter-trimmed and chimera-free `.fastq` files).
 
 ```bash
 bash 05-fastp_fastq_processor.sh -i <input> -o <output> -r 577 -l 831
