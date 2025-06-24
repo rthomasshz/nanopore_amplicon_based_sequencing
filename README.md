@@ -12,7 +12,7 @@ This repository contains a complete and modular bioinformatics pipeline for proc
 ## 1. Basecalling and Demultiplexing
 
 **Script:** `01_basecalling_and_demultiplexing.sh`
-**Tools:** Guppy v6.5.7+
+**Tools:** Guppy v4.2.2
 **Description:** Performs basecalling with the Super Accuracy (SUP) model and demultiplexing using Guppy. Only reads with barcodes at both ends are retained.
 
 ```bash
