@@ -182,6 +182,14 @@ bash megablast.sh -i <fasta_unclassified> -o <blast_output>
 
 ---
 
+## Consensus sequence generation and variant identification
+
+---
+
+
+
+---
+
 ## Figures and Supplementary Information
 
 - `Fig_1.png`: General pipeline overview  
