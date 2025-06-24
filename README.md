@@ -186,6 +186,36 @@ bash megablast.sh -i <fasta_unclassified> -o <blast_output>
 
 ---
 
+## 13. Extraction and Threshold Filtering of Taxon-Specific Reads
+
+- **Script:** `awk_fastq_filter.sh`  
+- **Tool:** AWK, Bash  
+- **Description:** Extracts `.fastq` reads assigned to specific taxonomic identifiers (e.g., `taxid|XXXX`) based on Kraken2 annotations. Each input file is evaluated for the number of taxon-matched reads. If the count exceeds the defined threshold, the output is saved as `*_above_threshold.fastq`; otherwise, it is saved separately as `*_below_threshold.fastq`.
+
+```bash
+bash awk_fastq_filter.sh -i <input_fastq_dir> -o <output_dir> -c <taxid1,taxid2,...> -n <read_threshold>
+```
+
+## 14. Quality Evaluation of Extracted Reads
+
+- **Script:** `03-nanoplot_fastq_processor.sh`  
+- **Tool:** NanoPlot v1.42.0  
+- **Description:** Generates per-sample quality control metrics for taxon-specific `.fastq` files using NanoPlot. Output includes read length distributions, quality score histograms, and summary statistics in TSV format. Results are used to determine appropriate Q-score thresholds for downstream filtering (e.g., NanoFilt).
+
+```bash
+bash 03-nanoplot_fastq_processor.sh -i <filtered_fastq_dir> -o <qc_output_dir>
+```
+
+## 15. MultiQC Summary of Extracted Read Quality
+
+- **Script:** `multiqc_report.sh`  
+- **Tool:** MultiQC v1.24.1  
+- **Description:** Aggregates all NanoPlot results from the extracted `.fastq` reads into a single interactive summary report. This facilitates comparison of read quality metrics across samples and helps determine appropriate filtering thresholds (e.g., for Q-score cutoff in NanoFilt).
+
+```bash
+bash multiqc_report.sh -i <nanoplot_results_dir> -o <multiqc_output_dir>
+```
+
 
 
 ---
