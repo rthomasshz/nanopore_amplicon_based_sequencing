@@ -13,7 +13,7 @@ This repository contains a complete and modular bioinformatics pipeline for proc
 
 **Script:** `01_basecalling_and_demultiplexing.sh`
 **Tools:** Guppy v4.2.2
-**Description:** Performs basecalling with the Super Accuracy (SUP) model and demultiplexing using Guppy. Only reads with barcodes at both ends are retained.
+**Description:** Performs basecalling using the Super Accuracy (SUP) model and demultiplexing via Guppy. Retains only reads with barcodes at both ends.
 
 ```bash
 bash 01_basecalling_and_demultiplexing.sh \
@@ -51,6 +51,7 @@ bash 02-concat_fastq.sh -i /path/to/demultiplexing_fastq/ -o /path/to/output
 
 * **Tool**: NanoPlot v1.42.0
 * **Script**: `03-nanoplot_fastq_processor.sh`
+* **Description:**Generate an initial quality control report on the concatenated .fastq files using NanoPlot.
 
 ```bash
 bash 03-nanoplot_fastq_processor.sh -i <concat_fastq> -o <qc_nanoplot1>
