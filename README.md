@@ -154,7 +154,7 @@ bash 08-kraken2_fastq_classifier.sh -i <trimmed_fastq> -o <kraken_output> -d <kr
 
 - **Script:** `fastq_to_fasta.sh`  
 - **Tool:** seqkit (required)  
-- **Description:** Convert FASTQ files containing unclassified reads (from Kraken2) to FASTA format prior to MEGABLAST validation. Only valid, non-empty files are processed, and read headers are simplified (e.g., extracting only `read=XXXX`). A log of skipped files is also generated.
+- **Description:** Convert `.fastq` files containing unclassified reads (from Kraken2) to `.fasta` format prior to MEGABLAST validation. Only valid, non-empty files are processed, and read headers are simplified (e.g., extracting only `read=XXXX`). A log of skipped files is also generated.
 
 ```bash
 bash fastq_to_fasta.sh -i <unclassified_fastq_dir> -o <fasta_output_dir>
@@ -164,7 +164,7 @@ bash fastq_to_fasta.sh -i <unclassified_fastq_dir> -o <fasta_output_dir>
 
 ## 12. Validation of Unclassified Reads
 
-- **Tool:** MEGABLAST (BLASTn)  
+- **Tool:** MEGABLAST (BLAST)  
 - **Script:** `megablast.sh`
 - **Description:** Validate Kraken2-unclassified reads using a high-stringency BLAST (MEGABLAST) search against a curated nucleotide database to identify potential taxonomic matches that were missed during the initial classification.  
 - **Database:** `core_nt.00`  
