@@ -42,7 +42,7 @@ Expected structure:
 **Description:** Concatenates all `.fastq` files from each barcode directory into one `.fastq` file per barcode.
 
 ```bash
-bash 02-concat_fastq.sh -i /ruta/a/fastq/demultiplexados -o /ruta/a/output
+bash 02-concat_fastq.sh -i /path/to/demultiplexing_fastq/ -o /path/to/output
 ```
 
 ---
