@@ -5,6 +5,8 @@ This repository contains a complete and modular bioinformatics pipeline for proc
 ![Workflow overview](./Fig_1.png)  
 *Figure 1. Bioinformatics pipeline for nanopore amplicon-based sequencing analysis. The process begins with basecalling and demultiplexing. The green dashed box highlights the source file (.fast5), while green arrows represent input files, and blue arrows indicate output files. Orange boxes are output files from one step and input for subsequent steps. Green dashed lines denote the reuse of generated files as inputs in subsequent steps. Blue boxes enclose the final output files.*
 
+---
+
 ## Data processing and quality filtering
 
 ---
