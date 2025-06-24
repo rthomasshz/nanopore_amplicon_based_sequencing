@@ -5,7 +5,7 @@ This repository contains a complete and modular bioinformatics pipeline for proc
 ## Overview of the Workflow
 
 ![Workflow overview](./Fig_S2.png)
-*Figure S1. General bioinformatics workflow for processing nanopore amplicon reads.*
+*Figure S2. General bioinformatics workflow for processing nanopore amplicon reads.*
 
 ---
 
